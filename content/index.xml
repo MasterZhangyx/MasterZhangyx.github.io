@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Contents on 张元兴的blog</title>
+    <title>Contents on Orianna</title>
     <link>https://MasterZhangyx.github.io/content/</link>
-    <description>Recent content in Contents on 张元兴的blog</description>
+    <description>Recent content in Contents on Orianna</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>zn-Hans</language>
     <lastBuildDate>Sun, 12 May 2019 15:51:28 +0800</lastBuildDate>
     
 	<atom:link href="https://MasterZhangyx.github.io/content/index.xml" rel="self" type="application/rss+xml" />
