@@ -6,10 +6,19 @@
     <description>Recent content in Posts on 张元兴的blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 12 May 2019 17:08:56 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 12 May 2019 17:19:31 +0800</lastBuildDate>
     
 	<atom:link href="https://MasterZhangyx.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>测试</title>
+      <link>https://MasterZhangyx.github.io/post/hello02/</link>
+      <pubDate>Sun, 12 May 2019 17:19:31 +0800</pubDate>
+      
+      <guid>https://MasterZhangyx.github.io/post/hello02/</guid>
+      <description>JSON 学习笔记 是什么  JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式 易于人阅读和编写 同时也易于机器解析和生成 完全独立于语言的文本格式  基本数据类型    类型 解释 举例     object 就是JavaScript的{ &amp;hellip; }表示方式 {&amp;ldquo;name&amp;rdquo;:&amp;ldquo;zyx&amp;rdquo;,&amp;ldquo;age&amp;rdquo;:27}   array 就是JavaScript的Array表示方式[] [&amp;ldquo;apple&amp;rdquo;,&amp;ldquo;melon&amp;rdquo;]   number 和JavaScript的number完全一致    boolean 就是JavaScript的true或false    string 就是JavaScript的string    null 就是JavaScript的null     js将对象转为json(序列化)    var xiaoming = { name: &#39;小明&#39;, age: 14, gender: true, height: 1.</description>
+    </item>
     
     <item>
       <title>Hello</title>
