@@ -1,41 +1,67 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Orianna</title>
-    <link>https://MasterZhangyx.github.io/-buildDrafts/</link>
-    <description>Recent content on Orianna</description>
+    <title>张元兴的blog</title>
+    <link>https://MasterZhangyx.github.io/</link>
+    <description>Recent content on 张元兴的blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zn-Hans</language>
+    <language>en-us</language>
     <lastBuildDate>Sun, 12 May 2019 17:19:31 +0800</lastBuildDate>
     
-	<atom:link href="https://MasterZhangyx.github.io/-buildDrafts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://MasterZhangyx.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>测试</title>
-      <link>https://MasterZhangyx.github.io/-buildDrafts/post/hello02/</link>
+      <link>https://MasterZhangyx.github.io/post/hello02/</link>
       <pubDate>Sun, 12 May 2019 17:19:31 +0800</pubDate>
       
-      <guid>https://MasterZhangyx.github.io/-buildDrafts/post/hello02/</guid>
-      <description>JSON 学习笔记 是什么 JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式 易于人阅读和编写 同时也易于机器解析和生成 完全独立于语言的文本格式 基本数据类型 类型 解释 举例 object 就是JavaScript的{ &amp;hellip; }表示方式 {&amp;ldquo;name&amp;rdquo;:&amp;ldquo;zyx&amp;rdquo;,&amp;ldquo;age&amp;rdquo;:27} array 就是JavaScript的Array表示方式[] [&amp;ldquo;apple&amp;rdquo;,&amp;ldquo;melon&amp;rdquo;] number 和JavaScript的number完全一致 boolean 就是JavaScript的true或false string 就是JavaScript的string null 就是JavaScript的nul</description>
+      <guid>https://MasterZhangyx.github.io/post/hello02/</guid>
+      <description>JSON 学习笔记 是什么  JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式 易于人阅读和编写 同时也易于机器解析和生成 完全独立于语言的文本格式  基本数据类型    类型 解释 举例     object 就是JavaScript的{ &amp;hellip; }表示方式 {&amp;ldquo;name&amp;rdquo;:&amp;ldquo;zyx&amp;rdquo;,&amp;ldquo;age&amp;rdquo;:27}   array 就是JavaScript的Array表示方式[] [&amp;ldquo;apple&amp;rdquo;,&amp;ldquo;melon&amp;rdquo;]   number 和JavaScript的number完全一致    boolean 就是JavaScript的true或false    string 就是JavaScript的string    null 就是JavaScript的null     js将对象转为json(序列化)    var xiaoming = { name: &#39;小明&#39;, age: 14, gender: true, height: 1.</description>
     </item>
     
     <item>
       <title>Hello</title>
-      <link>https://MasterZhangyx.github.io/-buildDrafts/post/hello/</link>
+      <link>https://MasterZhangyx.github.io/post/hello/</link>
       <pubDate>Sun, 12 May 2019 17:08:56 +0800</pubDate>
       
-      <guid>https://MasterZhangyx.github.io/-buildDrafts/post/hello/</guid>
+      <guid>https://MasterZhangyx.github.io/post/hello/</guid>
       <description>测试如何单独上传文章到git</description>
     </item>
     
     <item>
       <title>生产力</title>
-      <link>https://MasterZhangyx.github.io/-buildDrafts/post/%E7%94%9F%E4%BA%A7%E5%8A%9B/</link>
+      <link>https://MasterZhangyx.github.io/post/%E7%94%9F%E4%BA%A7%E5%8A%9B/</link>
       <pubDate>Sun, 12 May 2019 16:12:04 +0800</pubDate>
       
-      <guid>https://MasterZhangyx.github.io/-buildDrafts/post/%E7%94%9F%E4%BA%A7%E5%8A%9B/</guid>
-      <description>第四篇 生产力 保持专注 克服将自己思维集中于单一任务的不适，只是暂时的，不会维持多久。 将一切干扰的事情处理好，然后进入专注模式。 制定年，季，月，周，日计划 使用印象笔记制定计划 使用番茄工作法进行任务分割和执行，能够准确看到自己使用可多少个番茄钟，从而明确知道自己每周的工作量。 番茄工作法的精髓在于能够让自己明确的知道自己每天投入的时间，从而获取成就感。 通过番茄钟来确定每周的工作量，而不是自己制定的目标数量</description>
+      <guid>https://MasterZhangyx.github.io/post/%E7%94%9F%E4%BA%A7%E5%8A%9B/</guid>
+      <description>第四篇 生产力 保持专注 克服将自己思维集中于单一任务的不适，只是暂时的，不会维持多久。
+将一切干扰的事情处理好，然后进入专注模式。
+制定年，季，月，周，日计划 使用印象笔记制定计划
+使用番茄工作法进行任务分割和执行，能够准确看到自己使用可多少个番茄钟，从而明确知道自己每周的工作量。
+番茄工作法的精髓在于能够让自己明确的知道自己每天投入的时间，从而获取成就感。
+通过番茄钟来确定每周的工作量，而不是自己制定的目标数量，因为时间可以统计，而任务无法精确评估时间。
+定额工作法进行任务制定  挑选一项重复性的任务 明确有限时间，以及被重复的次数 承诺一定要完成 根据情况进行调整，但是不能在有效时间内调整  对自己负责 制定计划和目标的最终原因就是对自己负责，在无人监督的情况下，完成自己制定的任务和计划。
+要具有自我责任感。
+对于多任务的选择 一般情况下进行多任务是很糟糕的，但是也有需要进行多任务的事情，例如集中打电话，看邮件等，需要根据实际情况进行分析和执行。
+职业倦怠 职业倦怠就像运动员中的新秀墙，往往是自己的动机和兴趣减少，解决办法就是努力冲过那道墙，你会发现海阔天空。
+关于时间浪费问题 生活中时间不够用，往往是因为被无形中浪费了，例如看电视，玩手机，可以通过分析和统计一下自己的时间，看看都浪费到哪里去了。
+养成惯例的好处 养成好的惯例能让你每天都知道自己做什么，同时你会审视自己所做的是不是正在目标的路上进行前进，从而让目标更近一步。
+现在马上创建属于自己的惯例。然后细化他到每一天。
+培养习惯 习惯主要有三个要素构成，暗示，惯例，奖励。找到自己习惯的三要素，然后分析其中不好的习惯。怎么去除里面的暗示，然后培养好的习惯，找到让你做起来的暗示。
+分解任务 大的任务往往让人感觉紧张和焦虑。所以需要进行分解，分解的过程中也会对任务有更新的认识。
+努力工作 成功的方式就是努力的工作，没有其他捷径。
+我们必须学会脚踏实地，埋头苦干，这里没有简单的答案。
+当你在逃避工作的时候，其实明白这件事必须要做，所以不如现在就去做，而不是拖到最后，必须明白一点，要想实现目标，就是硬着头皮，开始工作。</description>
+    </item>
+    
+    <item>
+      <title>Hello</title>
+      <link>https://MasterZhangyx.github.io/content/hello/</link>
+      <pubDate>Sun, 12 May 2019 15:51:28 +0800</pubDate>
+      
+      <guid>https://MasterZhangyx.github.io/content/hello/</guid>
+      <description></description>
     </item>
     
   </channel>
