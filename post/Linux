@@ -1,0 +1,50 @@
+---
+title: "Linux"
+date: 2019-05-14T23:49:26+08:00
+draft: false
+---
+# Linux 命令笔记
+
+### sudo
+
+使用root权限进行命令操作，例如:使用root用户编辑配置文件
+
+``` shell
+sudo vim .bash_profile
+```
+
+### echo
+
+输出变量值，例如输出$PATH的值
+
+``` shell
+echo $PATH
+```
+
+### 配置环境变量($PATH,export)
+
+1. 输入下面命令
+
+``` shell
+sudo vim .bash_profile
+
+```
+
+2. 输入e进入编辑页面
+
+3. 输入i进行编辑
+
+4. 在PATH变量后面配置xxx，其中如果没有$PATH，需要写成以下方式
+
+   ``` shell
+   PATH=$PATH:XXX
+   ```
+
+5. 如果存在$PATH，则进行追加即可，多个变量使用：分割。
+
+6. 可以使用export 进行变量定义，例如
+
+   ``` shell
+   export HOME=XXX/XXX
+   PATH=$PATH:$HOME
+   ```

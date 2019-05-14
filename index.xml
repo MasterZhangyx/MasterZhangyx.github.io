@@ -6,10 +6,33 @@
     <description>Recent content on zyxdeblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 12 May 2019 17:19:31 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 14 May 2019 23:47:43 +0800</lastBuildDate>
     
 	<atom:link href="https://MasterZhangyx.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>RabbitMQ安装（mac版）</title>
+      <link>https://MasterZhangyx.github.io/post/rabbitmq%E5%AE%89%E8%A3%85mac%E7%89%88/</link>
+      <pubDate>Tue, 14 May 2019 23:47:43 +0800</pubDate>
+      
+      <guid>https://MasterZhangyx.github.io/post/rabbitmq%E5%AE%89%E8%A3%85mac%E7%89%88/</guid>
+      <description>RabbitMQ安装（mac版） 安装步骤  安装前需要安装HomeBrew，不了解的可以先看我写的另外一篇文章《HomeBrew安装教程》
+ 先更新brew
+  brew update   安装RabbitMQ  brew install rabbitmq   配置环境变量,将/usr/local/opt/rabbitmq/sbin加入$PATH中，具体做法参考《HomeBrew安装教程》
+ 启动服务
+  rabbitmq-server   测试，浏览器输入下面地址，账号密码都是guest  http://localhost:15672/  参考文献 rabbit官网</description>
+    </item>
+    
+    <item>
+      <title>HomeBrew安装教程（mac版）</title>
+      <link>https://MasterZhangyx.github.io/post/homebrew%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8Bmac%E7%89%88/</link>
+      <pubDate>Tue, 14 May 2019 23:45:27 +0800</pubDate>
+      
+      <guid>https://MasterZhangyx.github.io/post/homebrew%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8Bmac%E7%89%88/</guid>
+      <description>HomeBrew安装教程（mac版本） HomeBrew是什么 安装过程  Command+空格键打开聚焦搜索，输入ter，打开终端,输入下面命令  /usr/bin/ruby -e &amp;quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&amp;quot;   回车，根据提示输入账号密码，直到提示完成安装 输入brew &amp;ndash;version判断是否安装成功  安装小问题总结 如果输入brew &amp;ndash;version提示bash: brew: command not found ，尝试配置环境变量，需要在.bash_profile中配置一下path变量。在终端输入cd回到跟路径，输入 sudo vim .bash_profile指令编辑 .bash_profile文件，在文件中添加export PATH=/usr/local/bin:$PATH；如果PATH变量之前已经定义过，只需在后面追加 :/usr/local/bin(注：多个path变量之间通过&amp;rdquo; : &amp;ldquo;进行分隔)。输入完成之后执行source .bash_profile指令让bash_profile文件立即生效即可。
+参考文档 HomeBrew官网</description>
+    </item>
     
     <item>
       <title>测试</title>
