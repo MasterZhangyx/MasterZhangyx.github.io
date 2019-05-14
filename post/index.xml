@@ -6,10 +6,26 @@
     <description>Recent content in Posts on zyxdeblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 14 May 2019 23:47:43 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 14 May 2019 23:49:26 +0800</lastBuildDate>
     
 	<atom:link href="https://MasterZhangyx.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux常用命令总结</title>
+      <link>https://MasterZhangyx.github.io/post/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Tue, 14 May 2019 23:49:26 +0800</pubDate>
+      
+      <guid>https://MasterZhangyx.github.io/post/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/</guid>
+      <description> sudo 使用root权限进行命令操作，例如:使用root用户编辑配置文件
+sudo vim .bash_profile  echo 输出变量值，例如输出$PATH的值
+echo $PATH  配置环境变量($PATH,export)  输入下面命令  sudo vim .bash_profile   输入e进入编辑页面
+ 输入i进行编辑
+ 在PATH变量后面配置xxx，其中如果没有$PATH，需要写成以下方式
+  PATH=$PATH:XXX   如果存在$PATH，则进行追加即可，多个变量使用：分割。
+ 可以使用export 进行变量定义，例如
+  export HOME=XXX/XXX PATH=$PATH:$HOME  </description>
+    </item>
     
     <item>
       <title>RabbitMQ安装（mac版）</title>
@@ -32,24 +48,6 @@
       <guid>https://MasterZhangyx.github.io/post/homebrew%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8Bmac%E7%89%88/</guid>
       <description>HomeBrew安装教程（mac版本） HomeBrew是什么 安装过程  Command+空格键打开聚焦搜索，输入ter，打开终端,输入下面命令  /usr/bin/ruby -e &amp;quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&amp;quot;   回车，根据提示输入账号密码，直到提示完成安装 输入brew &amp;ndash;version判断是否安装成功  安装小问题总结 如果输入brew &amp;ndash;version提示bash: brew: command not found ，尝试配置环境变量，需要在.bash_profile中配置一下path变量。在终端输入cd回到跟路径，输入 sudo vim .bash_profile指令编辑 .bash_profile文件，在文件中添加export PATH=/usr/local/bin:$PATH；如果PATH变量之前已经定义过，只需在后面追加 :/usr/local/bin(注：多个path变量之间通过&amp;rdquo; : &amp;ldquo;进行分隔)。输入完成之后执行source .bash_profile指令让bash_profile文件立即生效即可。
 参考文档 HomeBrew官网</description>
-    </item>
-    
-    <item>
-      <title>测试</title>
-      <link>https://MasterZhangyx.github.io/post/hello02/</link>
-      <pubDate>Sun, 12 May 2019 17:19:31 +0800</pubDate>
-      
-      <guid>https://MasterZhangyx.github.io/post/hello02/</guid>
-      <description>JSON 学习笔记 是什么  JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式 易于人阅读和编写 同时也易于机器解析和生成 完全独立于语言的文本格式  基本数据类型    类型 解释 举例     object 就是JavaScript的{ &amp;hellip; }表示方式 {&amp;ldquo;name&amp;rdquo;:&amp;ldquo;zyx&amp;rdquo;,&amp;ldquo;age&amp;rdquo;:27}   array 就是JavaScript的Array表示方式[] [&amp;ldquo;apple&amp;rdquo;,&amp;ldquo;melon&amp;rdquo;]   number 和JavaScript的number完全一致    boolean 就是JavaScript的true或false    string 就是JavaScript的string    null 就是JavaScript的null     js将对象转为json(序列化)    var xiaoming = { name: &#39;小明&#39;, age: 14, gender: true, height: 1.</description>
-    </item>
-    
-    <item>
-      <title>Hello</title>
-      <link>https://MasterZhangyx.github.io/post/hello/</link>
-      <pubDate>Sun, 12 May 2019 17:08:56 +0800</pubDate>
-      
-      <guid>https://MasterZhangyx.github.io/post/hello/</guid>
-      <description>测试如何单独上传文章到git</description>
     </item>
     
     <item>
