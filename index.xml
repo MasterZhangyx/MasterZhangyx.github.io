@@ -6,10 +6,25 @@
     <description>Recent content on zyxdeblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 14 May 2019 23:49:26 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 20 May 2019 22:29:15 +0800</lastBuildDate>
     
 	<atom:link href="https://MasterZhangyx.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>RabbitMQ订阅模式</title>
+      <link>https://MasterZhangyx.github.io/post/rabbitmq%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 20 May 2019 22:29:15 +0800</pubDate>
+      
+      <guid>https://MasterZhangyx.github.io/post/rabbitmq%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/</guid>
+      <description>RabbitMQ订阅模式 Publish/Subscribe模式  一个生产者，多个消费者。
+ 每一个消费者拥有自己的队列。
+ 生产者没有将消息放到队列，而是exchange。
+ 每个消费者的队列都要绑定到exchange上。
+ 生产者发送消息，经过exchange到达队列，实现订阅模式。
+  图例：
+生产者 package com.zyx.queue.ps; import java.io.IOException; import java.util.concurrent.TimeoutException; import com.rabbitmq.client.Channel; import com.rabbitmq.client.Connection; import com.zyx.queue.RabbitMQUtils; public class Send { private static final String EXCHANGE_NAME = &amp;quot;test_exchange&amp;quot;; public static void main(String[] args) throws IOException, TimeoutException, InterruptedException { //1.获取连接 Connection connection = RabbitMQUtils.getConnection(); //2.创建频道 Channel channel = connection.createChannel(); //3.声明队列 channel.exchangeDeclare(EXCHANGE_NAME, &amp;quot;fanout&amp;quot;);//分发模式 //4.创建要发送的消息 String msg = new String(&amp;quot;hello rabbitmq&amp;quot;); //5.</description>
+    </item>
     
     <item>
       <title>Linux常用命令总结</title>

@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>RabbitMQ订阅模式 // zyxdeblog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.55.5" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://MasterZhangyx.github.io/css/main.min.f90f5edd436ec7b74ad05479a05705770306911f721193e7845948fb07fe1335.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="RabbitMQ订阅模式"/>
+<meta name="twitter:description" content="RabbitMQ订阅模式 Publish/Subscribe模式  一个生产者，多个消费者。
+ 每一个消费者拥有自己的队列。
+ 生产者没有将消息放到队列，而是exchange。
+ 每个消费者的队列都要绑定到exchange上。
+ 生产者发送消息，经过exchange到达队列，实现订阅模式。
+  图例：
+生产者 package com.zyx.queue.ps; import java.io.IOException; import java.util.concurrent.TimeoutException; import com.rabbitmq.client.Channel; import com.rabbitmq.client.Connection; import com.zyx.queue.RabbitMQUtils; public class Send { private static final String EXCHANGE_NAME = &quot;test_exchange&quot;; public static void main(String[] args) throws IOException, TimeoutException, InterruptedException { //1.获取连接 Connection connection = RabbitMQUtils.getConnection(); //2.创建频道 Channel channel = connection.createChannel(); //3.声明队列 channel.exchangeDeclare(EXCHANGE_NAME, &quot;fanout&quot;);//分发模式 //4.创建要发送的消息 String msg = new String(&quot;hello rabbitmq&quot;); //5."/>
+
+    <meta property="og:title" content="RabbitMQ订阅模式" />
+<meta property="og:description" content="RabbitMQ订阅模式 Publish/Subscribe模式  一个生产者，多个消费者。
+ 每一个消费者拥有自己的队列。
+ 生产者没有将消息放到队列，而是exchange。
+ 每个消费者的队列都要绑定到exchange上。
+ 生产者发送消息，经过exchange到达队列，实现订阅模式。
+  图例：
+生产者 package com.zyx.queue.ps; import java.io.IOException; import java.util.concurrent.TimeoutException; import com.rabbitmq.client.Channel; import com.rabbitmq.client.Connection; import com.zyx.queue.RabbitMQUtils; public class Send { private static final String EXCHANGE_NAME = &quot;test_exchange&quot;; public static void main(String[] args) throws IOException, TimeoutException, InterruptedException { //1.获取连接 Connection connection = RabbitMQUtils.getConnection(); //2.创建频道 Channel channel = connection.createChannel(); //3.声明队列 channel.exchangeDeclare(EXCHANGE_NAME, &quot;fanout&quot;);//分发模式 //4.创建要发送的消息 String msg = new String(&quot;hello rabbitmq&quot;); //5." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://MasterZhangyx.github.io/post/rabbitmq%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/" />
+<meta property="article:published_time" content="2019-05-20T22:29:15&#43;08:00"/>
+<meta property="article:modified_time" content="2019-05-20T22:29:15&#43;08:00"/>
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://MasterZhangyx.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <h1>zyxdeblog</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium.</p>
+      <div class="app-header-social">
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">RabbitMQ订阅模式</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 20, 2019
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          5 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      
+
+<h3 id="rabbitmq订阅模式">RabbitMQ订阅模式</h3>
+
+<h4 id="publish-subscribe模式">Publish/Subscribe模式</h4>
+
+<ol>
+<li><p>一个生产者，多个消费者。</p></li>
+
+<li><p>每一个消费者拥有自己的队列。</p></li>
+
+<li><p>生产者没有将消息放到队列，而是exchange。</p></li>
+
+<li><p>每个消费者的队列都要绑定到exchange上。</p></li>
+
+<li><p>生产者发送消息，经过exchange到达队列，实现订阅模式。</p></li>
+</ol>
+
+<p>图例：</p>
+
+<p><img src="/images/python-three-overall.png" alt="" /></p>
+
+<h4 id="生产者">生产者</h4>
+
+<pre><code class="language-java">package com.zyx.queue.ps;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.zyx.queue.RabbitMQUtils;
+
+public class Send {
+	private static final String EXCHANGE_NAME = &quot;test_exchange&quot;;
+	public static void main(String[] args) throws IOException, TimeoutException, InterruptedException {
+		//1.获取连接
+		Connection connection = RabbitMQUtils.getConnection();
+		//2.创建频道
+		Channel channel = connection.createChannel();
+		//3.声明队列
+		channel.exchangeDeclare(EXCHANGE_NAME, &quot;fanout&quot;);//分发模式
+		//4.创建要发送的消息
+		String msg = new String(&quot;hello rabbitmq&quot;);
+		//5.发送消息
+		channel.basicPublish(EXCHANGE_NAME, &quot;&quot;, null, msg.getBytes());
+		System.out.println(&quot;Producer----send:&quot; + msg);
+		channel.close();
+		connection.close();
+	}
+}
+</code></pre>
+
+<h4 id="消费者01">消费者01</h4>
+
+<pre><code class="language-java">package com.zyx.queue.ps;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
+import com.rabbitmq.client.AMQP.BasicProperties;
+import com.zyx.queue.RabbitMQUtils;
+
+public class Receive001 {
+	private static final String EXCHANGE_NAME = &quot;test_exchange&quot;;
+	private static final String QUEUE_NAME = &quot;test_exchange_queue001&quot;;
+	public static void main(String[] args) throws IOException, TimeoutException {
+		//1.获取连接
+		Connection connection = RabbitMQUtils.getConnection();
+		//2.创建频道
+		Channel channel = connection.createChannel();
+		//3.声明队列
+		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+		//3.2绑定exchange
+		channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, &quot;&quot;);
+		//4.创建消费者
+		DefaultConsumer consumer = new DefaultConsumer(channel) {
+			//事件模型
+			@Override
+			public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
+					throws IOException {
+				String msg = new String(body,&quot;utf-8&quot;);
+				System.out.println(&quot;Consumer[001]----receive:&quot; + msg);
+			}
+		};
+		//5.监听消息
+		channel.basicConsume(QUEUE_NAME, true,consumer);
+	}
+}
+</code></pre>
+
+<h4 id="消费者02">消费者02</h4>
+
+<pre><code class="language-java">package com.zyx.queue.ps;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
+import com.rabbitmq.client.AMQP.BasicProperties;
+import com.zyx.queue.RabbitMQUtils;
+
+public class Receive002 {
+	private static final String EXCHANGE_NAME = &quot;test_exchange&quot;;
+	private static final String QUEUE_NAME = &quot;test_exchange_queue002&quot;;
+	public static void main(String[] args) throws IOException, TimeoutException {
+		//1.获取连接
+		Connection connection = RabbitMQUtils.getConnection();
+		//2.创建频道
+		Channel channel = connection.createChannel();
+		//3.声明队列
+		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+		//3.2绑定exchange
+		channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, &quot;&quot;);
+		//4.创建消费者
+		DefaultConsumer consumer = new DefaultConsumer(channel) {
+			//事件模型
+			@Override
+			public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
+					throws IOException {
+				String msg = new String(body,&quot;utf-8&quot;);
+				System.out.println(&quot;Consumer[002]----receive:&quot; + msg);
+			}
+		};
+		//5.监听消息
+		channel.basicConsume(QUEUE_NAME, true,consumer);
+	}
+}
+</code></pre>
+
+<h4 id="exchange-routingkey模式">Exchange（routingKey模式）</h4>
+
+<p>一方面接收生产者的消息，一方面向队列推送消息</p>
+
+<p>不设置的话是匿名转发，设置为fanout就不处理routingKey。</p>
+
+<p>当设置为direct时，就可以通过设置routingKey来进行路由转发，其实就是分类发送。</p>
+
+<p>图例：</p>
+
+<p><img src="/images/direct-exchange.png" alt="" /></p>
+
+<p>代码演示</p>
+
+<h5 id="生产者-1">生产者</h5>
+
+<pre><code class="language-java">package com.zyx.queue.routing;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.zyx.queue.RabbitMQUtils;
+
+public class Send {
+	private static final String EXCHANGE_NAME = &quot;test_exchange&quot;;
+	public static void main(String[] args) throws IOException, TimeoutException, InterruptedException {
+		//1.获取连接
+		Connection connection = RabbitMQUtils.getConnection();
+		//2.创建频道
+		Channel channel = connection.createChannel();
+		//3.声明队列
+		channel.exchangeDeclare(EXCHANGE_NAME, &quot;direct&quot;);//路由模式
+		//4.创建要发送的消息
+		String msg = new String(&quot;hello rabbitmq&quot;);
+		//5.发送消息+设置路由
+		String routingKey = &quot;blue&quot;;
+		channel.basicPublish(EXCHANGE_NAME, routingKey, null, msg.getBytes());
+		System.out.println(&quot;Producer----send:&quot; + msg);
+		channel.close();
+		connection.close();
+	}
+}
+</code></pre>
+
+<h5 id="消费者1">消费者1</h5>
+
+<pre><code class="language-java">package com.zyx.queue.routing;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
+import com.rabbitmq.client.AMQP.BasicProperties;
+import com.zyx.queue.RabbitMQUtils;
+
+public class Receive001 {
+	private static final String EXCHANGE_NAME = &quot;test_exchange&quot;;
+	private static final String QUEUE_NAME = &quot;test_exchange_queue001&quot;;
+	public static void main(String[] args) throws IOException, TimeoutException {
+		//1.获取连接
+		Connection connection = RabbitMQUtils.getConnection();
+		//2.创建频道
+		Channel channel = connection.createChannel();
+		//3.声明队列
+		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+		//3.2绑定exchange+routingKey
+		channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, &quot;red&quot;);
+		//4.创建消费者
+		DefaultConsumer consumer = new DefaultConsumer(channel) {
+			//事件模型
+			@Override
+			public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
+					throws IOException {
+				String msg = new String(body,&quot;utf-8&quot;);
+				System.out.println(&quot;Consumer[001]----receive:&quot; + msg);
+			}
+		};
+		//5.监听消息
+		channel.basicConsume(QUEUE_NAME, true,consumer);
+	}
+}
+
+</code></pre>
+
+<h5 id="消费者2">消费者2</h5>
+
+<pre><code class="language-java">package com.zyx.queue.routing;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
+import com.rabbitmq.client.AMQP.BasicProperties;
+import com.zyx.queue.RabbitMQUtils;
+
+public class Receive002 {
+	private static final String EXCHANGE_NAME = &quot;test_exchange&quot;;
+	private static final String QUEUE_NAME = &quot;test_exchange_queue002&quot;;
+	public static void main(String[] args) throws IOException, TimeoutException {
+		//1.获取连接
+		Connection connection = RabbitMQUtils.getConnection();
+		//2.创建频道
+		Channel channel = connection.createChannel();
+		//3.声明队列
+		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+		//3.2绑定exchange+routingKey
+		channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, &quot;red&quot;);
+		channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, &quot;blue&quot;);
+		//4.创建消费者
+		DefaultConsumer consumer = new DefaultConsumer(channel) {
+			//事件模型
+			@Override
+			public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
+					throws IOException {
+				String msg = new String(body,&quot;utf-8&quot;);
+				System.out.println(&quot;Consumer[002]----receive:&quot; + msg);
+			}
+		};
+		//5.监听消息
+		channel.basicConsume(QUEUE_NAME, true,consumer);
+	}
+}
+</code></pre>
+
+<h5 id="测试">测试</h5>
+
+<p>当生产者将routingKey设置为blue时，只有消费者2能够接收到消息，设置为red时都可接收。</p>
+
+<h4 id="topic模式">topic模式</h4>
+
+<p>将routingKey和某种模式匹配</p>
+
+<p>&rsquo;#&rsquo; 匹配零个或者多个单词</p>
+
+<p>&lsquo;*&rsquo; 匹配一个单词</p>
+
+<p>图例：</p>
+
+<p><img src="/images/python-five.png" alt="" /></p>
+
+<p>提示：如果消费者的routingKey为&rsquo;person.#&lsquo;,或者&rsquo;person.add&rsquo;,那么生产者的routingKey为&rsquo;person&rsquo;时都不匹配，将会丢弃消息。</p>
+
+<h3 id="代码演示topic">代码演示Topic</h3>
+
+<h5 id="生产者-2">生产者</h5>
+
+<pre><code class="language-java">package com.zyx.queue.topic;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.zyx.queue.RabbitMQUtils;
+
+public class Send {
+	private static final String EXCHANGE_NAME = &quot;test_exchange_topic&quot;;
+	public static void main(String[] args) throws IOException, TimeoutException, InterruptedException {
+		//1.获取连接
+		Connection connection = RabbitMQUtils.getConnection();
+		//2.创建频道
+		Channel channel = connection.createChannel();
+		//3.声明队列
+		channel.exchangeDeclare(EXCHANGE_NAME, &quot;topic&quot;);//主题模式
+		//4.创建要发送的消息
+		String msg = new String(&quot;hello rabbitmq&quot;);
+		//5.发送消息+设置路由
+		String routingKey = &quot;person.update&quot;;
+		channel.basicPublish(EXCHANGE_NAME, routingKey, null, msg.getBytes());
+		System.out.println(&quot;Producer----send:&quot; + msg);
+		channel.close();
+		connection.close();
+	}
+}
+</code></pre>
+
+<h5 id="消费者1-1">消费者1</h5>
+
+<pre><code class="language-java">package com.zyx.queue.topic;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
+import com.rabbitmq.client.AMQP.BasicProperties;
+import com.zyx.queue.RabbitMQUtils;
+
+public class Receive001 {
+	private static final String EXCHANGE_NAME = &quot;test_exchange_topic&quot;;
+	private static final String QUEUE_NAME = &quot;test_exchange_queue_topic001&quot;;
+	public static void main(String[] args) throws IOException, TimeoutException {
+		//1.获取连接
+		Connection connection = RabbitMQUtils.getConnection();
+		//2.创建频道
+		Channel channel = connection.createChannel();
+		//3.声明队列
+		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+		//3.2绑定exchange+routingKey
+		channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, &quot;person.add&quot;);
+		//4.创建消费者
+		DefaultConsumer consumer = new DefaultConsumer(channel) {
+			//事件模型
+			@Override
+			public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
+					throws IOException {
+				String msg = new String(body,&quot;utf-8&quot;);
+				System.out.println(&quot;Consumer[001]----receive:&quot; + msg);
+			}
+		};
+		//5.监听消息
+		channel.basicConsume(QUEUE_NAME, true,consumer);
+	}
+}
+</code></pre>
+
+<h5 id="消费者2-1">消费者2</h5>
+
+<pre><code class="language-java">package com.zyx.queue.topic;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
+import com.rabbitmq.client.AMQP.BasicProperties;
+import com.zyx.queue.RabbitMQUtils;
+
+public class Receive002 {
+	private static final String EXCHANGE_NAME = &quot;test_exchange_topic&quot;;
+	private static final String QUEUE_NAME = &quot;test_exchange_queue_topic002&quot;;
+	public static void main(String[] args) throws IOException, TimeoutException {
+		//1.获取连接
+		Connection connection = RabbitMQUtils.getConnection();
+		//2.创建频道
+		Channel channel = connection.createChannel();
+		//3.声明队列
+		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+		//3.2绑定exchange+routingKey
+		channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, &quot;person.#&quot;);
+		//4.创建消费者
+		DefaultConsumer consumer = new DefaultConsumer(channel) {
+			//事件模型
+			@Override
+			public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
+					throws IOException {
+				String msg = new String(body,&quot;utf-8&quot;);
+				System.out.println(&quot;Consumer[002]----receive:&quot; + msg);
+			}
+		};
+		//5.监听消息
+		channel.basicConsume(QUEUE_NAME, true,consumer);
+	}
+}
+
+</code></pre>
+
+<h5 id="测试-1">测试</h5>
+
+<p>当生产者将routingKey设置为person.update时，只有消费者2能够接收到消息，设置为person.add时都可接收。</p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

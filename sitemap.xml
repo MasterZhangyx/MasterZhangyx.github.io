@@ -3,20 +3,25 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://MasterZhangyx.github.io/post/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/</loc>
-    <lastmod>2019-05-14T23:49:26+08:00</lastmod>
+    <loc>https://MasterZhangyx.github.io/post/</loc>
+    <lastmod>2019-05-20T22:29:15+08:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://MasterZhangyx.github.io/post/</loc>
-    <lastmod>2019-05-14T23:49:26+08:00</lastmod>
-    <priority>0</priority>
+    <loc>https://MasterZhangyx.github.io/post/rabbitmq%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2019-05-20T22:29:15+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://MasterZhangyx.github.io/</loc>
-    <lastmod>2019-05-14T23:49:26+08:00</lastmod>
+    <lastmod>2019-05-20T22:29:15+08:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://MasterZhangyx.github.io/post/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/</loc>
+    <lastmod>2019-05-14T23:49:26+08:00</lastmod>
   </url>
   
   <url>
