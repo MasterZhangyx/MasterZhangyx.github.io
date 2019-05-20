@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>RabbitMQ消息应答和消息持久化 // zyxdeblog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.55.5" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://MasterZhangyx.github.io/css/main.min.f90f5edd436ec7b74ad05479a05705770306911f721193e7845948fb07fe1335.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="RabbitMQ消息应答和消息持久化"/>
+<meta name="twitter:description" content=" RabbitMQ消息应答和消息持久化 消息应答 默认情况下，消费者接受到消息后，rabbitMq就删除内存中的消息。
+可以修改为手动应答模式，等待消费者手动确认后再进行内存数据删除
+boolean autoAck = false；//默认方式 autoAck = true; channel.basicConsume(QUEUE_NAME,autoAck,consumer);//设置手动提交模式 //同时在消息接收到之后进行标记修改 channel.basicAck(envelope.getDeliveryTag(), false);  消息持久化 指的是将队列的数据持久化到本地，用于防止数据丢失。
+提示：已经初始化的队列不能修改参数后再次使用，只能删除再创建。
+//3.声明队列 boolean durable = true; channel.queueDeclare(QUEUE_NAME, durable, false, false, null);  "/>
+
+    <meta property="og:title" content="RabbitMQ消息应答和消息持久化" />
+<meta property="og:description" content=" RabbitMQ消息应答和消息持久化 消息应答 默认情况下，消费者接受到消息后，rabbitMq就删除内存中的消息。
+可以修改为手动应答模式，等待消费者手动确认后再进行内存数据删除
+boolean autoAck = false；//默认方式 autoAck = true; channel.basicConsume(QUEUE_NAME,autoAck,consumer);//设置手动提交模式 //同时在消息接收到之后进行标记修改 channel.basicAck(envelope.getDeliveryTag(), false);  消息持久化 指的是将队列的数据持久化到本地，用于防止数据丢失。
+提示：已经初始化的队列不能修改参数后再次使用，只能删除再创建。
+//3.声明队列 boolean durable = true; channel.queueDeclare(QUEUE_NAME, durable, false, false, null);  " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://MasterZhangyx.github.io/post/rabbitmq%E6%B6%88%E6%81%AF%E5%BA%94%E7%AD%94%E5%92%8C%E6%B6%88%E6%81%AF%E6%8C%81%E4%B9%85%E5%8C%96/" />
+<meta property="article:published_time" content="2019-05-18T17:12:04&#43;08:00"/>
+<meta property="article:modified_time" content="2019-05-18T17:12:04&#43;08:00"/>
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://MasterZhangyx.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <h1>zyxdeblog</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium.</p>
+      <div class="app-header-social">
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">RabbitMQ消息应答和消息持久化</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 18, 2019
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          1 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      
+
+<h3 id="rabbitmq消息应答和消息持久化">RabbitMQ消息应答和消息持久化</h3>
+
+<h5 id="消息应答">消息应答</h5>
+
+<p>默认情况下，消费者接受到消息后，rabbitMq就删除内存中的消息。</p>
+
+<p>可以修改为手动应答模式，等待消费者手动确认后再进行内存数据删除</p>
+
+<pre><code class="language-java">boolean autoAck = false；//默认方式
+autoAck = true;
+channel.basicConsume(QUEUE_NAME,autoAck,consumer);//设置手动提交模式
+//同时在消息接收到之后进行标记修改
+channel.basicAck(envelope.getDeliveryTag(), false);
+</code></pre>
+
+<h4 id="消息持久化">消息持久化</h4>
+
+<p>指的是将队列的数据持久化到本地，用于防止数据丢失。</p>
+
+<p>提示：已经初始化的队列不能修改参数后再次使用，只能删除再创建。</p>
+
+<pre><code class="language-java">//3.声明队列
+boolean durable = true;
+channel.queueDeclare(QUEUE_NAME, durable, false, false, null);
+</code></pre>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

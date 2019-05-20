@@ -27,6 +27,50 @@
     </item>
     
     <item>
+      <title>RabbitMQ 队列学习</title>
+      <link>https://MasterZhangyx.github.io/post/rabbitmq-%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Mon, 20 May 2019 22:28:04 +0800</pubDate>
+      
+      <guid>https://MasterZhangyx.github.io/post/rabbitmq-%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/</guid>
+      <description>RabbitMQ 队列学习 准备工作 如果没有安装RabbitMQ，请参考我写的另一篇文章《RabbitMQ安装（mac版）》。安装完成后启动
+rabbitmq-server  然后在浏览器输入http://localhost:15672/，输入guest/guest。点击Admin，添加一个用户，name=admin
+password=123456，权限为admin，同时设置一个虚拟host为/test_host，
+代码演示01（简单队列）  创建一个maven项目，修改pom文件如下  &amp;lt;project xmlns=&amp;quot;http://maven.apache.org/POM/4.0.0&amp;quot; xmlns:xsi=&amp;quot;http://www.w3.org/2001/XMLSchema-instance&amp;quot; xsi:schemaLocation=&amp;quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&amp;quot;&amp;gt; &amp;lt;modelVersion&amp;gt;4.0.0&amp;lt;/modelVersion&amp;gt; &amp;lt;groupId&amp;gt;com.zyx&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;queue&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;0.0.1-SNAPSHOT&amp;lt;/version&amp;gt; &amp;lt;dependencies&amp;gt; &amp;lt;!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;com.rabbitmq&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;amqp-client&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;5.6.0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.slf4j&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;slf4j-api&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.7.25&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;!-- https://mvnrepository.com/artifact/log4j/log4j --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;log4j&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;log4j&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.2.17&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.slf4j&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;slf4j-log4j12&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;1.7.25&amp;lt;/version&amp;gt; &amp;lt;scope&amp;gt;test&amp;lt;/scope&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;!-- https://mvnrepository.com/artifact/junit/junit --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;junit&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;junit&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;4.12&amp;lt;/version&amp;gt; &amp;lt;scope&amp;gt;test&amp;lt;/scope&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;/dependencies&amp;gt; &amp;lt;/project&amp;gt;   创建一个rabbitmq连接，代码如下</description>
+    </item>
+    
+    <item>
+      <title>RabbitMQ应用场景</title>
+      <link>https://MasterZhangyx.github.io/post/rabbitmq%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/</link>
+      <pubDate>Mon, 20 May 2019 22:13:04 +0800</pubDate>
+      
+      <guid>https://MasterZhangyx.github.io/post/rabbitmq%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/</guid>
+      <description> RabbitMQ应用场景  异步处理 应用解耦 流量削峰 日志处理 消息通讯  </description>
+    </item>
+    
+    <item>
+      <title>RabbitMQ事务处理</title>
+      <link>https://MasterZhangyx.github.io/post/rabbitmq%E4%BA%8B%E5%8A%A1%E5%A4%84%E7%90%86/</link>
+      <pubDate>Sun, 19 May 2019 17:35:04 +0800</pubDate>
+      
+      <guid>https://MasterZhangyx.github.io/post/rabbitmq%E4%BA%8B%E5%8A%A1%E5%A4%84%E7%90%86/</guid>
+      <description>RabbitMQ事务处理 问题 生产者发送消息到RabbitMQ服务器，怎么保证消息发送成功呢，使用两种方式实现
+ 事务机制 confirm机制  事务机制代码主要代码演示 生产者 package com.zyx.queue.tx; import java.io.IOException; import java.util.concurrent.TimeoutException; import com.rabbitmq.client.Channel; import com.rabbitmq.client.Connection; import com.zyx.queue.RabbitMQUtils; public class Producer { private static final String QUEUE_NAME = &amp;quot;test_queue_tx&amp;quot;; public static void main(String[] args) throws IOException, TimeoutException { //1.获取连接 Connection connection = RabbitMQUtils.getConnection(); //2.创建频道 Channel channel = connection.createChannel(); //3.声明队列 channel.queueDeclare(QUEUE_NAME, false, false, false, null); //4.创建要发送的消息 String msg = new String(&amp;quot;hello rabbitmq&amp;quot;); try { channel.txSelect();//开启事务 //5.发送消息 channel.basicPublish(&amp;quot;&amp;quot;, QUEUE_NAME, null, msg.</description>
+    </item>
+    
+    <item>
+      <title>RabbitMQ消息应答和消息持久化</title>
+      <link>https://MasterZhangyx.github.io/post/rabbitmq%E6%B6%88%E6%81%AF%E5%BA%94%E7%AD%94%E5%92%8C%E6%B6%88%E6%81%AF%E6%8C%81%E4%B9%85%E5%8C%96/</link>
+      <pubDate>Sat, 18 May 2019 17:12:04 +0800</pubDate>
+      
+      <guid>https://MasterZhangyx.github.io/post/rabbitmq%E6%B6%88%E6%81%AF%E5%BA%94%E7%AD%94%E5%92%8C%E6%B6%88%E6%81%AF%E6%8C%81%E4%B9%85%E5%8C%96/</guid>
+      <description> RabbitMQ消息应答和消息持久化 消息应答 默认情况下，消费者接受到消息后，rabbitMq就删除内存中的消息。
+可以修改为手动应答模式，等待消费者手动确认后再进行内存数据删除
+boolean autoAck = false；//默认方式 autoAck = true; channel.basicConsume(QUEUE_NAME,autoAck,consumer);//设置手动提交模式 //同时在消息接收到之后进行标记修改 channel.basicAck(envelope.getDeliveryTag(), false);  消息持久化 指的是将队列的数据持久化到本地，用于防止数据丢失。
+提示：已经初始化的队列不能修改参数后再次使用，只能删除再创建。
+//3.声明队列 boolean durable = true; channel.queueDeclare(QUEUE_NAME, durable, false, false, null);  </description>
+    </item>
+    
+    <item>
       <title>Linux常用命令总结</title>
       <link>https://MasterZhangyx.github.io/post/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/</link>
       <pubDate>Tue, 14 May 2019 23:49:26 +0800</pubDate>
@@ -63,6 +107,18 @@ echo $PATH  配置环境变量($PATH,export)  输入下面命令  sudo vim .bash
       <guid>https://MasterZhangyx.github.io/post/homebrew%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8Bmac%E7%89%88/</guid>
       <description>HomeBrew安装教程（mac版本） HomeBrew是什么 安装过程  Command+空格键打开聚焦搜索，输入ter，打开终端,输入下面命令  /usr/bin/ruby -e &amp;quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&amp;quot;   回车，根据提示输入账号密码，直到提示完成安装 输入brew &amp;ndash;version判断是否安装成功  安装小问题总结 如果输入brew &amp;ndash;version提示bash: brew: command not found ，尝试配置环境变量，需要在.bash_profile中配置一下path变量。在终端输入cd回到跟路径，输入 sudo vim .bash_profile指令编辑 .bash_profile文件，在文件中添加export PATH=/usr/local/bin:$PATH；如果PATH变量之前已经定义过，只需在后面追加 :/usr/local/bin(注：多个path变量之间通过&amp;rdquo; : &amp;ldquo;进行分隔)。输入完成之后执行source .bash_profile指令让bash_profile文件立即生效即可。
 参考文档 HomeBrew官网</description>
+    </item>
+    
+    <item>
+      <title>零基础搭建一个个人博客系统(hugo)</title>
+      <link>https://MasterZhangyx.github.io/post/%E9%9B%B6%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Sun, 12 May 2019 17:33:04 +0800</pubDate>
+      
+      <guid>https://MasterZhangyx.github.io/post/%E9%9B%B6%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%B3%BB%E7%BB%9F/</guid>
+      <description>零基础搭建一个个人博客系统 安装brew brew 是 Mac 下的一个包管理工具，类似于 centos 下的 yum，可以很方便地进行安装/卸载/更新各种软件包，例如：nodejs, elasticsearch, kibana, mysql, mongodb 等等，可以用来快速搭建各种本地环境，程序员必备工具
+参考文档https://brew.sh/index_zh-cn.html
+安装brew
+/usr/bin/ruby -e &amp;quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&amp;quot;  安装hugo brew install hugo  测试是否安装成功 zyxdeMac-mini:~ zyx$ hugo version Hugo Static Site Generator v0.55.5/extended darwin/amd64 BuildDate: unknown  使用Hugo来创建项目(设置主站) 1. hugo new site zyxdeblog 2.zyxdeMac-mini:~ zyx$ cd zyxdeblog/ zyxdeMac-mini:zyxdeblog zyx$ ls -l total 8 drwxr-xr-x 3 zyx staff 96 5 12 14:50 archetypes -rw-r--r-- 1 zyx staff 82 5 12 14:50 config.</description>
     </item>
     
     <item>

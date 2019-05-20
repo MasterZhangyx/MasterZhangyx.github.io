@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>RabbitMQ 队列学习 // zyxdeblog</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.55.5" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://MasterZhangyx.github.io/css/main.min.f90f5edd436ec7b74ad05479a05705770306911f721193e7845948fb07fe1335.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="RabbitMQ 队列学习"/>
+<meta name="twitter:description" content="RabbitMQ 队列学习 准备工作 如果没有安装RabbitMQ，请参考我写的另一篇文章《RabbitMQ安装（mac版）》。安装完成后启动
+rabbitmq-server  然后在浏览器输入http://localhost:15672/，输入guest/guest。点击Admin，添加一个用户，name=admin
+password=123456，权限为admin，同时设置一个虚拟host为/test_host，
+代码演示01（简单队列）  创建一个maven项目，修改pom文件如下  &lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt; &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt; &lt;groupId&gt;com.zyx&lt;/groupId&gt; &lt;artifactId&gt;queue&lt;/artifactId&gt; &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt; &lt;dependencies&gt; &lt;!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client --&gt; &lt;dependency&gt; &lt;groupId&gt;com.rabbitmq&lt;/groupId&gt; &lt;artifactId&gt;amqp-client&lt;/artifactId&gt; &lt;version&gt;5.6.0&lt;/version&gt; &lt;/dependency&gt; &lt;!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api --&gt; &lt;dependency&gt; &lt;groupId&gt;org.slf4j&lt;/groupId&gt; &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt; &lt;version&gt;1.7.25&lt;/version&gt; &lt;/dependency&gt; &lt;!-- https://mvnrepository.com/artifact/log4j/log4j --&gt; &lt;dependency&gt; &lt;groupId&gt;log4j&lt;/groupId&gt; &lt;artifactId&gt;log4j&lt;/artifactId&gt; &lt;version&gt;1.2.17&lt;/version&gt; &lt;/dependency&gt; &lt;!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 --&gt; &lt;dependency&gt; &lt;groupId&gt;org.slf4j&lt;/groupId&gt; &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt; &lt;version&gt;1.7.25&lt;/version&gt; &lt;scope&gt;test&lt;/scope&gt; &lt;/dependency&gt; &lt;!-- https://mvnrepository.com/artifact/junit/junit --&gt; &lt;dependency&gt; &lt;groupId&gt;junit&lt;/groupId&gt; &lt;artifactId&gt;junit&lt;/artifactId&gt; &lt;version&gt;4.12&lt;/version&gt; &lt;scope&gt;test&lt;/scope&gt; &lt;/dependency&gt; &lt;/dependencies&gt; &lt;/project&gt;   创建一个rabbitmq连接，代码如下"/>
+
+    <meta property="og:title" content="RabbitMQ 队列学习" />
+<meta property="og:description" content="RabbitMQ 队列学习 准备工作 如果没有安装RabbitMQ，请参考我写的另一篇文章《RabbitMQ安装（mac版）》。安装完成后启动
+rabbitmq-server  然后在浏览器输入http://localhost:15672/，输入guest/guest。点击Admin，添加一个用户，name=admin
+password=123456，权限为admin，同时设置一个虚拟host为/test_host，
+代码演示01（简单队列）  创建一个maven项目，修改pom文件如下  &lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt; &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt; &lt;groupId&gt;com.zyx&lt;/groupId&gt; &lt;artifactId&gt;queue&lt;/artifactId&gt; &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt; &lt;dependencies&gt; &lt;!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client --&gt; &lt;dependency&gt; &lt;groupId&gt;com.rabbitmq&lt;/groupId&gt; &lt;artifactId&gt;amqp-client&lt;/artifactId&gt; &lt;version&gt;5.6.0&lt;/version&gt; &lt;/dependency&gt; &lt;!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api --&gt; &lt;dependency&gt; &lt;groupId&gt;org.slf4j&lt;/groupId&gt; &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt; &lt;version&gt;1.7.25&lt;/version&gt; &lt;/dependency&gt; &lt;!-- https://mvnrepository.com/artifact/log4j/log4j --&gt; &lt;dependency&gt; &lt;groupId&gt;log4j&lt;/groupId&gt; &lt;artifactId&gt;log4j&lt;/artifactId&gt; &lt;version&gt;1.2.17&lt;/version&gt; &lt;/dependency&gt; &lt;!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 --&gt; &lt;dependency&gt; &lt;groupId&gt;org.slf4j&lt;/groupId&gt; &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt; &lt;version&gt;1.7.25&lt;/version&gt; &lt;scope&gt;test&lt;/scope&gt; &lt;/dependency&gt; &lt;!-- https://mvnrepository.com/artifact/junit/junit --&gt; &lt;dependency&gt; &lt;groupId&gt;junit&lt;/groupId&gt; &lt;artifactId&gt;junit&lt;/artifactId&gt; &lt;version&gt;4.12&lt;/version&gt; &lt;scope&gt;test&lt;/scope&gt; &lt;/dependency&gt; &lt;/dependencies&gt; &lt;/project&gt;   创建一个rabbitmq连接，代码如下" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://MasterZhangyx.github.io/post/rabbitmq-%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0/" />
+<meta property="article:published_time" content="2019-05-20T22:28:04&#43;08:00"/>
+<meta property="article:modified_time" content="2019-05-20T22:28:04&#43;08:00"/>
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://MasterZhangyx.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <h1>zyxdeblog</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium.</p>
+      <div class="app-header-social">
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">RabbitMQ 队列学习</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 20, 2019
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          3 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      
+
+<h3 id="rabbitmq-队列学习">RabbitMQ 队列学习</h3>
+
+<h4 id="准备工作">准备工作</h4>
+
+<p>如果没有安装RabbitMQ，请参考我写的另一篇文章《RabbitMQ安装（mac版）》。安装完成后启动</p>
+
+<pre><code class="language-shell">rabbitmq-server
+</code></pre>
+
+<p>然后在浏览器输入<a href="http://localhost:15672/，输入guest/guest。点击Admin，添加一个用户，name=admin">http://localhost:15672/，输入guest/guest。点击Admin，添加一个用户，name=admin</a></p>
+
+<p>password=123456，权限为admin，同时设置一个虚拟host为/test_host，</p>
+
+<h4 id="代码演示01-简单队列">代码演示01（简单队列）</h4>
+
+<ol>
+<li>创建一个maven项目，修改pom文件如下</li>
+</ol>
+
+<pre><code class="language-xml">   &lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
+   	xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+   	xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+   	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+   	&lt;groupId&gt;com.zyx&lt;/groupId&gt;
+   	&lt;artifactId&gt;queue&lt;/artifactId&gt;
+   	&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+   	&lt;dependencies&gt;
+   		&lt;!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client --&gt;
+   		&lt;dependency&gt;
+   			&lt;groupId&gt;com.rabbitmq&lt;/groupId&gt;
+   			&lt;artifactId&gt;amqp-client&lt;/artifactId&gt;
+   			&lt;version&gt;5.6.0&lt;/version&gt;
+   		&lt;/dependency&gt;
+   		&lt;!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api --&gt;
+   		&lt;dependency&gt;
+   			&lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+   			&lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
+   			&lt;version&gt;1.7.25&lt;/version&gt;
+   		&lt;/dependency&gt;
+   		&lt;!-- https://mvnrepository.com/artifact/log4j/log4j --&gt;
+   		&lt;dependency&gt;
+   			&lt;groupId&gt;log4j&lt;/groupId&gt;
+   			&lt;artifactId&gt;log4j&lt;/artifactId&gt;
+   			&lt;version&gt;1.2.17&lt;/version&gt;
+   		&lt;/dependency&gt;
+   		&lt;!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 --&gt;
+   		&lt;dependency&gt;
+   			&lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+   			&lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
+   			&lt;version&gt;1.7.25&lt;/version&gt;
+   			&lt;scope&gt;test&lt;/scope&gt;
+   		&lt;/dependency&gt;
+   		&lt;!-- https://mvnrepository.com/artifact/junit/junit --&gt;
+   		&lt;dependency&gt;
+   			&lt;groupId&gt;junit&lt;/groupId&gt;
+   			&lt;artifactId&gt;junit&lt;/artifactId&gt;
+   			&lt;version&gt;4.12&lt;/version&gt;
+   			&lt;scope&gt;test&lt;/scope&gt;
+   		&lt;/dependency&gt;
+   	&lt;/dependencies&gt;
+   &lt;/project&gt;
+</code></pre>
+
+<ol>
+<li><p>创建一个rabbitmq连接，代码如下</p>
+
+<pre><code class="language-java">  package com.zyx.queue;
+      
+  import java.io.IOException;
+  import java.util.concurrent.TimeoutException;
+      
+  import com.rabbitmq.client.Connection;
+  import com.rabbitmq.client.ConnectionFactory;
+      
+  public class RabbitMQUtils {
+    public static Connection getConnection() throws IOException, TimeoutException{
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+        connectionFactory.setHost(&quot;127.0.0.1&quot;);
+        connectionFactory.setPort(5672);
+        connectionFactory.setVirtualHost(&quot;/test_host&quot;);
+        connectionFactory.setUsername(&quot;admin&quot;);
+        connectionFactory.setPassword(&quot;123456&quot;);
+        return connectionFactory.newConnection();
+    }
+  }
+</code></pre>
+
+<ol>
+<li>创建生产者</li>
+</ol>
+
+<pre><code class="language-java">package com.zyx.queue;
+ import java.io.IOException;
+ import java.util.concurrent.TimeoutException;
+     
+ import com.rabbitmq.client.Channel;
+ import com.rabbitmq.client.Connection;
+     
+ public class Producer {
+    private static final String QUEUE_NAME = &quot;test_queue&quot;;
+    public static void main(String[] args) throws IOException, TimeoutException {
+        //1.获取连接
+        Connection connection = RabbitMQUtils.getConnection();
+        //2.创建频道
+        Channel channel = connection.createChannel();
+        //3.声明队列
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        //4.创建要发送的消息
+        String msg = new String(&quot;hello rabbitmq&quot;);
+        //5.发送消息
+        channel.basicPublish(&quot;&quot;, QUEUE_NAME, null, msg.getBytes());
+        System.out.println(&quot;Producer----send:&quot; + msg);
+        channel.close();
+        connection.close();
+    }
+ }
+</code></pre></li>
+</ol>
+
+<p>​</p>
+
+<ol>
+<li><p>创建消费者</p>
+
+<pre><code class="language-java"> package com.zyx.queue;
+     
+ import java.io.IOException;
+ import java.util.concurrent.TimeoutException;
+     
+ import com.rabbitmq.client.Channel;
+ import com.rabbitmq.client.Connection;
+ import com.rabbitmq.client.DefaultConsumer;
+ import com.rabbitmq.client.Envelope;
+ import com.rabbitmq.client.AMQP.BasicProperties;
+     
+ public class Consumer {
+    private static final String QUEUE_NAME = &quot;test_queue&quot;;
+    public static void main(String[] args) throws IOException, TimeoutException {
+        //1.获取连接
+        Connection connection = RabbitMQUtils.getConnection();
+        //2.创建频道
+        Channel channel = connection.createChannel();
+        //3.声明队列
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        //4.创建消费者
+        DefaultConsumer consumer = new DefaultConsumer(channel) {
+            //事件模型
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
+                    throws IOException {
+                String msg = new String(body,&quot;utf-8&quot;);
+                System.out.println(&quot;Consumer----receive:&quot; + msg);
+            }
+        };
+        //5.监听消息
+        channel.basicConsume(QUEUE_NAME, true,consumer);
+    }
+ }
+     
+</code></pre>
+
+<ol>
+<li>测试</li>
+</ol>
+
+<pre><code class="language-java">//启动生产者发送消息
+//启动消费者接收消息
+//再次运行生产者发送消息，观察结果。
+</code></pre></li>
+</ol>
+
+<p>#### 代码演示02（work队列）</p>
+
+<ol>
+<li><p>生产者</p>
+
+<pre><code class="language-java">  package com.zyx.queue.work;
+      
+  import java.io.IOException;
+  import java.util.concurrent.TimeoutException;
+      
+  import com.rabbitmq.client.Channel;
+  import com.rabbitmq.client.Connection;
+  import com.zyx.queue.RabbitMQUtils;
+      
+  public class Send {
+    private static final String QUEUE_NAME = &quot;test_work_queue&quot;;
+    public static void main(String[] args) throws IOException, TimeoutException, InterruptedException {
+        //1.获取连接
+        Connection connection = RabbitMQUtils.getConnection();
+        //2.创建频道
+        Channel channel = connection.createChannel();
+        //3.声明队列
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        for (int i = 1; i &lt;= 50; i++) {
+            //4.创建要发送的消息
+            String msg = new String(&quot;hello rabbitmq&quot; + i);
+            //5.发送消息
+            channel.basicPublish(&quot;&quot;, QUEUE_NAME, null, msg.getBytes());
+            System.out.println(&quot;Producer----send:&quot; + msg);
+            Thread.sleep(100);
+        }
+        channel.close();
+        connection.close();
+    }
+  }
+      
+</code></pre>
+
+<ol>
+<li>消费者1</li>
+</ol>
+
+<pre><code class="language-java">  package com.zyx.queue.work;
+      
+  import java.io.IOException;
+  import java.util.concurrent.TimeoutException;
+      
+  import com.rabbitmq.client.Channel;
+  import com.rabbitmq.client.Connection;
+  import com.rabbitmq.client.DefaultConsumer;
+  import com.rabbitmq.client.Envelope;
+  import com.rabbitmq.client.AMQP.BasicProperties;
+  import com.zyx.queue.RabbitMQUtils;
+      
+  public class Receive001 {
+    private static final String QUEUE_NAME = &quot;test_work_queue&quot;;
+    public static void main(String[] args) throws IOException, TimeoutException {
+        //1.获取连接
+        Connection connection = RabbitMQUtils.getConnection();
+        //2.创建频道
+        Channel channel = connection.createChannel();
+        //3.声明队列
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        //4.创建消费者
+        DefaultConsumer consumer = new DefaultConsumer(channel) {
+            //事件模型
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
+                    throws IOException {
+                String msg = new String(body,&quot;utf-8&quot;);
+                System.out.println(&quot;Consumer[001]----receive:&quot; + msg);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        };
+        //5.监听消息
+        channel.basicConsume(QUEUE_NAME, true,consumer);
+    }
+  }
+      
+</code></pre></li>
+
+<li><p>消费者2</p>
+
+<pre><code class="language-java">  package com.zyx.queue.work;
+      
+  import java.io.IOException;
+  import java.util.concurrent.TimeoutException;
+      
+  import com.rabbitmq.client.Channel;
+  import com.rabbitmq.client.Connection;
+  import com.rabbitmq.client.DefaultConsumer;
+  import com.rabbitmq.client.Envelope;
+  import com.rabbitmq.client.AMQP.BasicProperties;
+  import com.zyx.queue.RabbitMQUtils;
+      
+  public class Receive002 {
+    private static final String QUEUE_NAME = &quot;test_work_queue&quot;;
+    public static void main(String[] args) throws IOException, TimeoutException {
+        //1.获取连接
+        Connection connection = RabbitMQUtils.getConnection();
+        //2.创建频道
+        Channel channel = connection.createChannel();
+        //3.声明队列
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        //4.创建消费者
+        DefaultConsumer consumer = new DefaultConsumer(channel) {
+            //事件模型
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
+                    throws IOException {
+                String msg = new String(body,&quot;utf-8&quot;);
+                System.out.println(&quot;Consumer[002]----receive:&quot; + msg);
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        };
+        //5.监听消息
+        channel.basicConsume(QUEUE_NAME, true,consumer);
+    }
+  }
+      
+</code></pre>
+
+<ol>
+<li>测试</li>
+</ol>
+
+<pre><code class="language-java">  //启动生产者发送消息
+  //启动两个消费者接收消息
+  //采用轮询方式进行消息接收
+</code></pre></li>
+</ol>
+
+<h4 id="rabbitmq-常用命令">RabbitMQ 常用命令</h4>
+
+<pre><code class="language-shell">启动监控管理器：rabbitmq-plugins enable rabbitmq_management
+关闭监控管理器：rabbitmq-plugins disable rabbitmq_management
+启动rabbitmq：rabbitmq-service start
+关闭rabbitmq：rabbitmq-service stop
+查看所有的队列：rabbitmqctl list_queues
+清除所有的队列：rabbitmqctl reset
+关闭应用：rabbitmqctl stop_app
+启动应用：rabbitmqctl start_app
+用户和权限设置（后面用处）
+
+添加用户：rabbitmqctl add_user username password
+分配角色：rabbitmqctl set_user_tags username administrator
+新增虚拟主机：rabbitmqctl add_vhost  vhost_name
+将新虚拟主机授权给新用户：rabbitmqctl set_permissions -p vhost_name username '.*' '.*' '.*'
+角色说明
+
+none  最小权限角色
+management 管理员角色
+policymaker   决策者
+monitoring  监控
+administrator  超级管理员 
+</code></pre>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
